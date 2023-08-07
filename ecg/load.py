@@ -3,7 +3,8 @@ from __future__ import division
 from __future__ import absolute_import
 
 import json
-import keras
+import tensorflow   # Import TensorFlow, which includes Keras
+from tensorflow.keras import callbacks
 import numpy as np
 import os
 import random
@@ -43,11 +44,12 @@ class Preproc:
         return x
 
     def process_y(self, y):
-        # TODO, awni, fix hack pad with noise for cinc
-        y = pad([[self.class_to_int[c] for c in s] for s in y], val=3, dtype=np.int32) 
-        y = keras.utils.np_utils.to_categorical(
-                y, num_classes=len(self.classes))
+    # TODO, awni, fix hack pad with noise for cinc
+        y = pad([[self.class_to_int[c] for c in s] for s in y], val=3, dtype=np.int32)
+        y = tensorflow.keras.utils.to_categorical(
+            y, num_classes=len(self.classes))
         return y
+
 
 def pad(x, val=0, dtype=np.float32):
     max_len = max(len(i) for i in x)

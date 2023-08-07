@@ -4,7 +4,8 @@ from __future__ import absolute_import
 
 import argparse
 import json
-import keras
+import tensorflow
+from tensorflow.keras import callbacks
 import numpy as np
 import os
 import random
@@ -50,14 +51,14 @@ def train(args, params):
 
     model = network.build_network(**params)
 
-    stopping = keras.callbacks.EarlyStopping(patience=8)
+    stopping = tensorflow.keras.callbacks.EarlyStopping(patience=8)
 
-    reduce_lr = keras.callbacks.ReduceLROnPlateau(
+    reduce_lr = tensorflow.keras.callbacks.ReduceLROnPlateau(
         factor=0.1,
         patience=2,
         min_lr=params["learning_rate"] * 0.001)
 
-    checkpointer = keras.callbacks.ModelCheckpoint(
+    checkpointer = tensorflow.keras.callbacks.ModelCheckpoint(
         filepath=get_filename_for_saving(save_dir),
         save_best_only=False)
 
